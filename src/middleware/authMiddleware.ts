@@ -19,7 +19,7 @@ export const authMiddleware = (req: any, res: Response, next: () => void) => {
         .status(401)
         .json({ message: "EXPIRED_TOKEN", redirect: CLIENT_EXPIRED_TOKEN_URL });
     }
-    req.user = decoded; // Attach user data to the request object
+    req.profile = decoded; // Attach user profile data to the request object
     next();
   } catch (error) {
     return res.status(401).json({ message: "Invalid token" });

@@ -13,4 +13,10 @@ export interface TypedCreateServerReq extends Request {
     imageUrl: string;
     name: string;
   };
+  profile?: {
+    id: string;
+    email: string;
+    imageUrl: string;
+    name: string;
+  };
 }
