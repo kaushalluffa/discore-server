@@ -29,6 +29,7 @@ export const signupHandler = async ({
         email: true,
         imageUrl: true,
         name: true,
+        id: true,
       },
     });
     const token = jwt.sign(newUser, JWT_SECRET_KEY, { expiresIn: "7d" });
@@ -36,7 +37,7 @@ export const signupHandler = async ({
   } catch (error: any) {
     return {
       success: false,
-      error: error?.message ?? "Something went wrong please try again",
+      message: error?.message ?? "Something went wrong please try again",
     };
   }
 };
@@ -53,18 +54,18 @@ export const loginHandler = async ({
     if (!user) {
       return {
         success: false,
-        error: "Email or password incorrect",
+        message: "Email or password incorrect",
       };
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return {
         success: false,
-        error: "Email or password incorrect",
+        message: "Email or password incorrect",
       };
     }
     const token = jwt.sign(
-      { email: user.email, name: user.name },
+      { email: user.email, name: user.name, id: user.id },
       JWT_SECRET_KEY,
       { expiresIn: "7d" }
     );
@@ -72,7 +73,7 @@ export const loginHandler = async ({
   } catch (error: any) {
     return {
       success: false,
-      error: error?.message ?? "Something went wrong please try again",
+      message: error?.message ?? "Something went wrong please try again",
     };
   }
 };

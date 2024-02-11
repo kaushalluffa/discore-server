@@ -3,6 +3,7 @@ export default function validate(payload: any, type: string) {
   switch (type) {
     case VALIDATION_TYPES.SIGNUP_REQ:
       if (!payload?.email) {
+        console.log(payload, "payload");
         return VALIDATION_MSGS.NO_EMAIL;
       } else if (!payload?.password) {
         return VALIDATION_MSGS.NO_PASSWORD;
