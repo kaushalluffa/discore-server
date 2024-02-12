@@ -24,13 +24,13 @@ model Profile {
 }
 
 model Server {
-  id         String @id @default(uuid())
-  name       String
-  imageUrl   String @db.Text
-  inviteCode String @unique
-
-  profileId String
-  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  id          String  @id @default(uuid())
+  name        String
+  imageUrl    String  @db.Text
+  inviteCode  String  @unique
+  description String? @db.Text
+  profileId   String
+  profile     Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   members  Member[]
   channels Channel[]

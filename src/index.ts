@@ -7,6 +7,7 @@ import { PORT, COMPLETE_URL, CLIENT_URL } from "./constants";
 import bodyParser from "body-parser";
 import authRouter from "./controllers/authController";
 import serverRouter from "./controllers/serverController";
+import channelRouter from "./controllers/channelController";
 dotenv.config();
 const app = express();
 app.use(
@@ -21,6 +22,7 @@ const server = createServer(app);
 
 app.use(authRouter);
 app.use(serverRouter);
+app.use(channelRouter);
 server.listen(PORT, () => {
   console.log(`server running at ${COMPLETE_URL}`);
 });
