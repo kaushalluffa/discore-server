@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { CLIENT_EXPIRED_TOKEN_URL, JWT_SECRET_KEY } from "../constants";
 const app = express();
 app.use(cookieParser());
+
 export const authMiddleware = (req: any, res: Response, next: () => void) => {
   const token = req.cookies.token;
 
@@ -19,7 +20,7 @@ export const authMiddleware = (req: any, res: Response, next: () => void) => {
         .status(401)
         .json({ message: "EXPIRED_TOKEN", redirect: CLIENT_EXPIRED_TOKEN_URL });
     }
-    req.profile = decoded; // Attach user profile data to the request object
+    req.user = decoded; // Attach user profile data to the request object
     next();
   } catch (error) {
     return res.status(401).json({ message: "Invalid token" });

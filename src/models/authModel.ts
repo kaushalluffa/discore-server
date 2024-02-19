@@ -13,12 +13,12 @@ export const signupHandler = async ({
 }) => {
   try {
     let newUser;
-    newUser = await prisma.profile.findFirst({ where: { email } });
+    newUser = await prisma.user.findFirst({ where: { email } });
     if (newUser) {
       throw new Error("User already exists");
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    newUser = await prisma.profile.create({
+    newUser = await prisma.user.create({
       data: {
         email,
         imageUrl: "",
@@ -50,7 +50,7 @@ export const loginHandler = async ({
 }) => {
   try {
     let user;
-    user = await prisma.profile.findFirst({ where: { email } });
+    user = await prisma.user.findFirst({ where: { email } });
     if (!user) {
       return {
         success: false,

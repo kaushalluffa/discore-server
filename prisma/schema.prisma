@@ -8,63 +8,46 @@ datasource db {
 }
 
 model User {
-  id            String  @id @default(uuid())
-  emailVerified Boolean @default(false)
-  name          String? @db.Text
-  imageUrl      String  @db.Text
-  email         String  @db.Text
-  password      String  @db.Text
-
-  members Member[]
-
+  id        String   @id @unique @default(uuid())
+  email     String   @unique @db.Text
+  password  String   @db.Text
+  name      String   @db.Text
+  imageUrl  String?
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-enum MemberRole {
-  ADMIN
-  GENERAL
 }
 
 model Member {
-  id   String     @id @default(uuid())
-  role MemberRole @default(GENERAL)
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  messages Message[]
-
+  id            String         @id @unique @default(uuid())
+  email         String         @unique @db.Text
+  name          String         @db.Text
+  imageUrl      String?
   conversations Conversation[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([userId])
-}
-
-model Message {
-  id      String @id @default(uuid())
-  content String @db.Text
-
-  fileUrl        String?      @db.Text
-  conversationId String
-  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  memberId       String
-  member         Member       @relation(fields: [memberId], references: [id], onDelete: Cascade)
-
-  deleted Boolean @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([memberId])
+  messages      Message[]
+  createdAt     DateTime       @default(now())
+  userId        String
 }
 
 model Conversation {
-  id String @id @default(uuid())
+  id         String    @id @unique @default(uuid())
+  isGroup    Boolean?  @default(false)
+  groupTitle String?   @db.Text
+  members    Member[]
+  messages   Message[]
+  type       Type?
+  createdAt  DateTime  @default(now())
+}
 
-  members Member[]
+enum Type {
+  DIRECT_MESSAGE
+  GROUP
+}
 
-  messages Message[]
+model Message {
+  id             String       @id @unique @default(uuid())
+  body           String?      @db.Text
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  senderId       String
+  sender         Member       @relation(fields: [senderId], references: [id])
+  createdAt      DateTime     @default(now())
 }

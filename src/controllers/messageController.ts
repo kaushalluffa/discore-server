@@ -1,8 +1,9 @@
 import express, { Response } from "express";
 import dotenv from "dotenv";
-import { TypedCreateChannelReq, TypedGetChannelReq } from "../types";
+import { TypedGetChannelReq } from "../types";
 
 import { authMiddleware } from "../middleware/authMiddleware";
+import { createMessage } from "../models/messageModel";
 dotenv.config();
 
 const messageRouter = express.Router();
@@ -15,6 +16,9 @@ messageRouter.post(
 messageRouter.post(
   "/messages/create",
   authMiddleware,
-  async (req: TypedCreateChannelReq, res: Response) => {}
+  async (req: any, res: Response) => {
+    const createdMessage = await createMessage();
+    res.json(createdMessage);
+  }
 );
 export default messageRouter;
