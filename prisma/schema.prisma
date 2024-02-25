@@ -10,10 +10,10 @@ datasource db {
 model User {
   id        String   @id @unique @default(uuid())
   email     String   @unique @db.Text
-  password  String   @db.Text
   name      String   @db.Text
   imageUrl  String?
   createdAt DateTime @default(now())
+  workOSId  String
 }
 
 model Member {

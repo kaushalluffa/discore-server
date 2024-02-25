@@ -10,6 +10,7 @@ export const createConversation = async (members: any) => {
       },
       include: { members: true },
     });
+
     return conversation;
   } catch (error) {
     console.log(error);

@@ -22,6 +22,7 @@ export const createMessage = async () => {
         senderId: "5d13dd3a-86d7-4b12-b9df-2342f67558d3",
       },
     });
+
     return message;
   } catch (error: any) {
     console.log(error, "error");
