@@ -1,14 +1,13 @@
 import { jwtVerify } from "jose";
-import { JWT_SECRET_KEY } from "../constants";
-const secret = new Uint8Array(Buffer.from(JWT_SECRET_KEY, "base64"));
+import { secret } from "../constants";
 
 const workosAuthMiddleware = async (req: any, res: any, next: any) => {
   const token = req.cookies.token;
-  let verifiedToken;
+
   try {
-    verifiedToken = await jwtVerify(token, secret);
-    if (verifiedToken) {
-      req.user = verifiedToken.payload.user;
+    const { payload: user } = await jwtVerify(token, secret);
+    if (user) {
+      req.user = user.payload;
     }
     next();
   } catch (error) {
