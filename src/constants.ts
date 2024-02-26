@@ -22,3 +22,4 @@ export const VALIDATION_TYPES = {
   SIGNUP_REQ: "signupReq",
   LOGIN_REQ: "loginReq",
 };
+export const secret = new Uint8Array(Buffer.from(JWT_SECRET_KEY, "base64"));
