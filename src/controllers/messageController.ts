@@ -1,23 +1,25 @@
 import express, { Response } from "express";
 import dotenv from "dotenv";
 import { TypedGetChannelReq } from "../types";
-
-import { authMiddleware } from "../middleware/authMiddleware";
-import { createMessage } from "../models/messageModel";
+import { createMessage, getMessages } from "../models/messageModel";
+import workosAuthMiddleware from "../middleware/workosAuthMiddleware";
 dotenv.config();
 
 const messageRouter = express.Router();
 
 messageRouter.post(
-  "/messages",
-  authMiddleware,
-  async (req: TypedGetChannelReq, res: Response) => {}
+  "/",
+  workosAuthMiddleware,
+  async (req: TypedGetChannelReq, res: Response) => {
+    const messages = await getMessages(req);
+    res.json(messages);
+  }
 );
 messageRouter.post(
-  "/messages/create",
-  authMiddleware,
+  "/create",
+  workosAuthMiddleware,
   async (req: any, res: Response) => {
-    const createdMessage = await createMessage();
+    const createdMessage = await createMessage(req);
     res.json(createdMessage);
   }
 );
