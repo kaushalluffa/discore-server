@@ -1,28 +1,40 @@
 import { prisma } from "../prisma";
-import { TypedGetChannelReq } from "../types";
+import { io } from "../socket/socket";
 
-export const getChannel = async (req: TypedGetChannelReq) => {
-  if (req?.profile) {
-    try {
-    } catch (error: any) {
-      console.log(error, "error");
-      return {
-        success: false,
-        message: error?.message ?? "Something went wrong please try again",
-      };
-    }
+export const getMessages = async (req: any) => {
+  try {
+    const messages = await prisma.message.findMany({
+      where: { conversationId: req?.body?.conversationId },
+      include: {
+        sender: {
+          include: {
+            user: { select: { id: true, imageUrl: true, email: true } },
+          },
+        },
+      },
+    });
+    return messages;
+  } catch (error) {
+    console.log(error);
   }
 };
-export const createMessage = async () => {
+export const createMessage = async (req: any) => {
   try {
     const message = await prisma.message.create({
       data: {
-        body: "hi test",
-        conversationId: "a648f7e8-c3eb-4505-8cbd-91d64f5a60e3",
-        senderId: "5d13dd3a-86d7-4b12-b9df-2342f67558d3",
+        body: req?.body?.messageBody,
+        sender: { connect: { id: req?.body?.senderId } },
+        conversation: { connect: { id: req?.body?.conversationId } },
+      },
+      include: {
+        sender: {
+          include: {
+            user: { select: { id: true, imageUrl: true, email: true } },
+          },
+        },
       },
     });
-
+    io.to(req?.body?.conversationId).emit("newMessage", message);
     return message;
   } catch (error: any) {
     console.log(error, "error");
