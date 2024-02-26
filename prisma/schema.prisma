@@ -14,17 +14,18 @@ model User {
   imageUrl  String?
   createdAt DateTime @default(now())
   workOSId  String
+  members   Member[]
 }
 
 model Member {
-  id            String         @id @unique @default(uuid())
-  email         String         @unique @db.Text
-  name          String         @db.Text
-  imageUrl      String?
-  conversations Conversation[]
-  messages      Message[]
-  createdAt     DateTime       @default(now())
-  userId        String
+  id             String       @id @unique @default(uuid())
+  messages       Message[]
+  joinedAt       DateTime     @default(now())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id])
+  conversationId String
+  conversations  Conversation @relation(fields: [conversationId], references: [id])
+  role           Role         @default(MEMBER)
 }
 
 model Conversation {
@@ -35,11 +36,17 @@ model Conversation {
   messages   Message[]
   type       Type?
   createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 enum Type {
   DIRECT_MESSAGE
   GROUP
+}
+
+enum Role {
+  ADMIN
+  MEMBER
 }
 
 model Message {
@@ -50,4 +57,5 @@ model Message {
   senderId       String
   sender         Member       @relation(fields: [senderId], references: [id])
   createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }
