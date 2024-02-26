@@ -1,26 +1,35 @@
 import express, { Response } from "express";
 import dotenv from "dotenv";
-import { authMiddleware } from "../middleware/authMiddleware";
 import {
   createConversation,
   getConversations,
+  getOneConversation,
 } from "../models/conversationModel";
+import workosAuthMiddleware from "../middleware/workosAuthMiddleware";
 
 dotenv.config();
 
 const conversationRouter = express.Router();
 
 conversationRouter.get(
-  "/conversation",
-  authMiddleware,
+  "/",
+  workosAuthMiddleware,
   async (req: any, res: Response) => {
     const userConversations = await getConversations(req?.user?.id);
     res.json(userConversations);
   }
 );
 conversationRouter.post(
-  "/conversation/create",
-  authMiddleware,
+  "/",
+  workosAuthMiddleware,
+  async (req: any, res: Response) => {
+    const oneConversation = await getOneConversation(req?.body?.conversationId);
+    res.json(oneConversation);
+  }
+);
+conversationRouter.post(
+  "/create",
+  workosAuthMiddleware,
   async (req: any, res: Response) => {
     const createdConversation = await createConversation(req?.body?.members);
     res.json(createdConversation);
