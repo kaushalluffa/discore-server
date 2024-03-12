@@ -8,9 +8,8 @@ import messageRouter from "./controllers/messageController";
 import ioMiddleware from "./middleware/ioMiddleware";
 import { app, io, server } from "./socket/socket";
 import { handleEvents } from "./socket/events";
-import workOSRouter from "./controllers/workOSAuth";
-import callbacksRouter from "./controllers/callbackControllers";
 import usersController from "./controllers/usersControllers";
+import authController from "./controllers/authController";
 
 dotenv.config();
 
@@ -23,11 +22,6 @@ app.use(
 app.use(cookieParser());
 app.use(bodyParser.json());
 
-//workos auth
-app.use(workOSRouter);
-
-//callbacks
-app.use("/callback", callbacksRouter);
 // io middleware auth
 io.use(ioMiddleware).on("connection", (socket) => {
   console.log("a user connected", socket?.id);
@@ -39,9 +33,14 @@ io.use(ioMiddleware).on("connection", (socket) => {
 app.get("/", (_req: any, res: any) => {
   res.json("Hitting the api");
 });
+app.use("/auth", authController);
 //protected routes
 app.use("/users", usersController);
-app.use("/conversation", conversationRouter);
+app.use(
+  "/conversation",
+
+  conversationRouter
+);
 app.use("/message", messageRouter);
 
 server.listen(PORT, () => {

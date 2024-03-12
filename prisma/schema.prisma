@@ -13,8 +13,8 @@ model User {
   name      String   @db.Text
   imageUrl  String?
   createdAt DateTime @default(now())
-  workOSId  String
   members   Member[]
+  password  String
 }
 
 model Member {

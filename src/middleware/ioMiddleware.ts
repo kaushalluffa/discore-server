@@ -1,8 +1,8 @@
-import { secret } from "../constants";
+import { JWT_SECRET_KEY } from "../constants";
 import { Socket } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 import { ExtendedError } from "socket.io/dist/namespace";
-import { jwtVerify } from "jose";
+import jwt from "jsonwebtoken";
 export default async function ioMiddleware(
   socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
   next: (err?: ExtendedError | undefined) => void
@@ -10,7 +10,7 @@ export default async function ioMiddleware(
   const token = socket.handshake.auth.token ?? "";
   let verifiedToken;
   try {
-    verifiedToken = await jwtVerify(token, secret);
+    verifiedToken = await jwt.verify(token, JWT_SECRET_KEY);
 
     if (!verifiedToken) {
       const err = new Error("Token expired");
