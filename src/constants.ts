@@ -23,3 +23,4 @@ export const VALIDATION_TYPES = {
   LOGIN_REQ: "loginReq",
 };
 export const secret = new Uint8Array(Buffer.from(JWT_SECRET_KEY, "base64"));
+export const CLIENT_AUTH_URL = process.env.CLIENT_AUTH_URL;

@@ -10,6 +10,7 @@ import { app, io, server } from "./socket/socket";
 import { handleEvents } from "./socket/events";
 import usersController from "./controllers/usersControllers";
 import authController from "./controllers/authController";
+import authMiddleware from "./middleware/authMiddleware";
 
 dotenv.config();
 
@@ -35,13 +36,9 @@ app.get("/", (_req: any, res: any) => {
 });
 app.use("/auth", authController);
 //protected routes
-app.use("/users", usersController);
-app.use(
-  "/conversation",
-
-  conversationRouter
-);
-app.use("/message", messageRouter);
+app.use("/users", authMiddleware, usersController);
+app.use("/conversation", authMiddleware, conversationRouter);
+app.use("/message", authMiddleware, messageRouter);
 
 server.listen(PORT, () => {
   console.log(`server running at ${COMPLETE_URL}`);

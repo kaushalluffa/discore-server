@@ -2,11 +2,7 @@ import { prisma } from "../prisma";
 import bcrypt from "bcrypt";
 import generateToken from "../utils/generateToken";
 import jwt from "jsonwebtoken";
-import {
-  CLIENT_EXPIRED_TOKEN_URL,
-  CLIENT_URL,
-  JWT_SECRET_KEY,
-} from "../constants";
+import { CLIENT_AUTH_URL, JWT_SECRET_KEY } from "../constants";
 export const signup = async (req: any, res: any) => {
   const { email, password, name, imageUrl = null } = req?.body;
   if (!email) {
@@ -87,13 +83,13 @@ export const verifyUser = async (req: any, res: any) => {
   if (cookies?.token) {
     const decodedToken: any = jwt.verify(cookies.token, JWT_SECRET_KEY);
     if (!decodedToken) {
-      return res.redirect(`${CLIENT_URL}/${CLIENT_EXPIRED_TOKEN_URL}`);
+      return res.redirect(CLIENT_AUTH_URL);
     }
     const existingUser = await prisma.user.findFirst({
       where: { email: decodedToken?.email },
     });
     if (!existingUser) {
-      return res.redirect(`${CLIENT_URL}/${CLIENT_EXPIRED_TOKEN_URL}`);
+      return res.redirect(CLIENT_AUTH_URL);
     }
     return res.json({
       isAuthenticated: true,
