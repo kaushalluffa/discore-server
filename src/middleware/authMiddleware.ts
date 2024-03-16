@@ -1,19 +1,27 @@
-import { CLIENT_AUTH_URL, JWT_SECRET_KEY } from "../constants";
+import { Response } from "express";
+import { JWT_SECRET_KEY } from "../constants";
 import jwt from "jsonwebtoken";
-export default async function authMiddleware(req: any, res: any, next: any) {
+export default async function authMiddleware(
+  req: any,
+  res: Response,
+  next: any
+) {
   const token = req?.cookies?.token ?? null;
   let verifiedToken;
   try {
-    verifiedToken = await jwt.verify(token, JWT_SECRET_KEY);
+    if (token) {
+      verifiedToken = await jwt.verify(token, JWT_SECRET_KEY);
 
-    if (!verifiedToken) {
-      const err = new Error("Token expired");
-      next(err);
-      res.redirect(CLIENT_AUTH_URL);
+      if (!verifiedToken) {
+        res.json({ message: "No token/token expired" });
+      }
+      req.user = verifiedToken;
+      next();
+    } else {
+      res.json({ message: "No token/token expired" });
     }
-    next();
   } catch (error) {
-    next(new Error("Invalid token"));
-    res.redirect(CLIENT_AUTH_URL);
+    res.json({ message: "No token/token expired" });
+    next(error);
   }
 }
