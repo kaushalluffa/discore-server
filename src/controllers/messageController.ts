@@ -10,7 +10,6 @@ messageRouter.post(
   "/",
 
   async (req: TypedGetChannelReq, res: Response) => {
-    console.log(req, "req");
     const messages = await getMessages(req);
     res.json(messages);
   }

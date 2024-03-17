@@ -8,7 +8,9 @@ export const getMessages = async (req: any) => {
       include: {
         sender: {
           include: {
-            user: { select: { id: true, imageUrl: true, email: true } },
+            user: {
+              select: { id: true, imageUrl: true, email: true, name: true },
+            },
           },
         },
       },

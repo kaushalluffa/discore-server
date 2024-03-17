@@ -8,7 +8,6 @@ usersController.post("/all", async (req: any, res: any) => {
 });
 
 usersController.get("/isLoggedIn", async (req: any, res: any) => {
-  console.log("here");
   const isLoggedIn = await getLoggedInUser(req);
   res.status(200).json(isLoggedIn);
 });
