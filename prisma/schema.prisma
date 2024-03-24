@@ -15,6 +15,7 @@ model User {
   createdAt DateTime @default(now())
   members   Member[]
   password  String
+  imageId   String?
 }
 
 model Member {
@@ -58,4 +59,6 @@ model Message {
   sender         Member       @relation(fields: [senderId], references: [id])
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
+  fileId         String?
+  fileUrl        String?
 }

@@ -11,6 +11,7 @@ import { handleEvents } from "./socket/events";
 import usersController from "./controllers/usersControllers";
 import authController from "./controllers/authController";
 import authMiddleware from "./middleware/authMiddleware";
+import imageKitAuthController from "./controllers/imageKitAuthController";
 
 dotenv.config();
 
@@ -39,7 +40,7 @@ app.use("/auth", authController);
 app.use("/users", authMiddleware, usersController);
 app.use("/conversation", authMiddleware, conversationRouter);
 app.use("/message", authMiddleware, messageRouter);
-
+app.use("/img-kit", imageKitAuthController);
 server.listen(PORT, () => {
   console.log(`server running at ${COMPLETE_URL}`);
 });
