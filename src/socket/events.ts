@@ -1,16 +1,28 @@
+import { Socket } from "socket.io";
 import { joinRoom, leaveRoom } from "./room";
+import { io } from "./socket";
 
-export const handleEvents = (socket: any) => {
-  socket.on("joinRoom", (roomName: any) => {
-    joinRoom(socket, roomName);
-  });
-
-  socket.on("leaveRoom", (roomName: any) => {
-    leaveRoom(socket, roomName);
-  });
-  socket.on("joinConversation", (conversationId: any) => {
-    console.log("join conversation");
+export const handleEvents = (socket: Socket) => {
+  socket.on("joinConversation", (conversationId: string) => {
     joinRoom(socket, conversationId);
+    io.to(conversationId).emit(
+      "onlineUsersNumberForGroupChats",
+      io?.sockets?.adapter?.rooms?.get(conversationId)?.size
+    );
   });
-  // Add more event handlers as needed
+  socket.on("leaveConversation", (conversationId: string) => {
+    leaveRoom(socket, conversationId);
+    io.to(conversationId).emit(
+      "onlineUsersNumberForGroupChats",
+      io?.sockets?.adapter?.rooms?.get(conversationId)?.size
+    );
+  });
+  socket.on("connectedUser", (userId: string) => {
+    console.log("connectedUser");
+    joinRoom(socket, userId);
+  });
+  socket.on("disconnectedUser", (userId: string) => {
+    console.log("disconnectedUser");
+    leaveRoom(socket, userId);
+  });
 };

@@ -6,12 +6,7 @@ export const BASE_URL = process.env.BASE_URL as string;
 export const PORT = process.env.PORT || 8000;
 export const COMPLETE_URL = `${BASE_URL}:${PORT}`;
 export const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY as string;
-export const COOKIE_DURATION = process.env.COOKIE_DURATION as string;
 export const CLIENT_URL = process.env.CLIENT_URL as string;
-export const SIGNUP_SUCCESS_CLIENT_REDIRECT_PATH = process.env
-  .SIGNUP_SUCCESS_CLIENT_REDIRECT_PATH as string;
-export const CLIENT_EXPIRED_TOKEN_URL = process.env
-  .CLIENT_EXPIRED_TOKEN_URL as string;
 export const VALIDATION_MSGS = {
   NO_EMAIL: "NO EMAIL PROVIDED",
   NO_PASSWORD: "NO PASSWORD PROVIDED",

@@ -38,6 +38,12 @@ export const createMessage = async (req: any) => {
       },
     });
     io.to(req?.body?.conversationId).emit("newMessage", message);
+    const members = await prisma.member.findMany({
+      where: { conversationId: req?.body?.conversationId },
+    });
+    members.forEach((member) => {
+      io.to(member?.userId).emit("newMessageInConversation", message);
+    });
     return message;
   } catch (error: any) {
     console.log(error, "error");
