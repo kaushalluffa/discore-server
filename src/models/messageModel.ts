@@ -1,8 +1,9 @@
+import { Request, Response } from "express";
 import { prisma } from "../prisma";
 import { io } from "../socket/socket";
-import deleteImageKitFile from "../utils/deleteImageKitFile";
+import { deleteImageKitFile } from "../utils/deleteImageKitFile";
 
-export const getMessages = async (req: any) => {
+export const getMessages = async (req: Request, res: Response) => {
   try {
     const messages = await prisma.message.findMany({
       where: { conversationId: req?.body?.conversationId },
@@ -16,12 +17,13 @@ export const getMessages = async (req: any) => {
         },
       },
     });
-    return messages;
+    return res.json(messages);
   } catch (error) {
     console.log(error);
+    return res.json({ error: error?.toString() });
   }
 };
-export const createMessage = async (req: any) => {
+export const createMessage = async (req: Request, res: Response) => {
   try {
     const message = await prisma.message.create({
       data: {
@@ -44,16 +46,13 @@ export const createMessage = async (req: any) => {
     members.forEach((member) => {
       io.to(member?.userId).emit("newMessageInConversation", message);
     });
-    return message;
+    return res.json(message);
   } catch (error: any) {
-    console.log(error, "error");
-    return {
-      success: false,
-      message: error?.message ?? "Something went wrong please try again",
-    };
+    console.log(error);
+    return res.json({ error: error?.toString() });
   }
 };
-export const deleteMessage = async (req: any) => {
+export const deleteMessage = async (req: Request, res: Response) => {
   try {
     const message = await prisma.message.findFirst({
       where: { id: req?.body?.message?.id },
@@ -75,15 +74,14 @@ export const deleteMessage = async (req: any) => {
         "deletedMessage",
         message?.id
       );
-      return message;
+      return res.json(message);
     } else {
-      return { message: "You are not allowed to delete this message" };
+      return res.json({
+        message: "You are not allowed to delete this message",
+      });
     }
   } catch (error: any) {
-    console.log(error, "error");
-    return {
-      success: false,
-      message: error?.message ?? "Something went wrong please try again",
-    };
+    console.log(error);
+    return res.json({ error: error?.toString() });
   }
 };
