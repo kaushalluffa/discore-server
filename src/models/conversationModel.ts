@@ -1,6 +1,7 @@
+import { Request, Response } from "express";
 import { prisma } from "../prisma";
 import { io } from "../socket/socket";
-export const createConversation = async (req: any) => {
+export const createConversation = async (req: Request, res: Response) => {
   const type = req?.body?.type;
   const members = req?.body?.members;
   try {
@@ -18,12 +19,13 @@ export const createConversation = async (req: any) => {
     conversation?.members?.forEach((member) => {
       io.to(member?.userId).emit("newConversation", conversation);
     });
-    return conversation;
+    return res.json(conversation);
   } catch (error) {
     console.log(error);
+    return res.json({ error: error?.toString() });
   }
 };
-export const getConversations = async (req: any) => {
+export const getConversations = async (req: Request, res: Response) => {
   const userId = req?.user?.id;
   const searchValue = req?.body?.searchValue;
   try {
@@ -57,14 +59,14 @@ export const getConversations = async (req: any) => {
       include: { members: { include: { user: true } } },
       orderBy: { createdAt: "desc" },
     });
-    return conversations;
+    return res.json(conversations);
   } catch (error) {
     console.log(error);
-    ``;
+    return res.json({ error: error?.toString() });
   }
 };
 
-export const deleteConversation = async (req: any) => {
+export const deleteConversation = async (req: Request, res: Response) => {
   const member = await prisma.member.findFirst({
     where: {
       AND: [
@@ -83,8 +85,9 @@ export const deleteConversation = async (req: any) => {
     conversation?.members?.forEach((member) => {
       io.to(member?.userId).emit("deleteConversation", conversation?.id);
     });
-    return conversation;
+    return res.json(conversation);
   } catch (error) {
     console.log(error);
+    return res.json({ error: error?.toString() });
   }
 };

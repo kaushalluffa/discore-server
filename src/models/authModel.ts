@@ -3,7 +3,8 @@ import bcrypt from "bcrypt";
 import generateToken from "../utils/generateToken";
 import jwt from "jsonwebtoken";
 import { CLIENT_AUTH_URL, JWT_SECRET_KEY } from "../constants";
-export const signup = async (req: any, res: any) => {
+import { Request, Response } from "express";
+export const signup = async (req: Request, res: Response) => {
   const { email, password, name, imageUrl = null } = req?.body;
   if (!email) {
     return res.json({ message: "Email is required" });
@@ -37,10 +38,11 @@ export const signup = async (req: any, res: any) => {
       });
     }
   } catch (error) {
+    console.log(error);
     return res.json({ error: error?.toString() });
   }
 };
-export const login = async (req: any, res: any) => {
+export const login = async (req: Request, res: Response) => {
   const { email, password } = req?.body;
   if (!email) {
     return res.json({ message: "Email is required" });
@@ -75,30 +77,36 @@ export const login = async (req: any, res: any) => {
       });
     }
   } catch (error) {
+    console.log(error);
     return res.json({ error: error?.toString() });
   }
 };
-export const verifyUser = async (req: any, res: any) => {
+export const verifyUser = async (req: Request, res: Response) => {
   const cookies = req?.cookies;
   if (cookies?.token) {
     const decodedToken: any = jwt.verify(cookies.token, JWT_SECRET_KEY);
     if (!decodedToken) {
-      return res.redirect(CLIENT_AUTH_URL);
+      return res.redirect(CLIENT_AUTH_URL as string);
     }
-    const existingUser = await prisma.user.findFirst({
-      where: { email: decodedToken?.email },
-    });
-    if (!existingUser) {
-      return res.redirect(CLIENT_AUTH_URL);
+    try {
+      const existingUser = await prisma.user.findFirst({
+        where: { email: decodedToken?.email },
+      });
+      if (!existingUser) {
+        return res.redirect(CLIENT_AUTH_URL as string);
+      }
+      return res.json({
+        isAuthenticated: true,
+        user: {
+          email: existingUser?.email,
+          id: existingUser?.id,
+          name: existingUser?.name,
+          imageUrl: existingUser?.imageUrl,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      return res.redirect(CLIENT_AUTH_URL as string);
     }
-    return res.json({
-      isAuthenticated: true,
-      user: {
-        email: existingUser?.email,
-        id: existingUser?.id,
-        name: existingUser?.name,
-        imageUrl: existingUser?.imageUrl,
-      },
-    });
   }
 };

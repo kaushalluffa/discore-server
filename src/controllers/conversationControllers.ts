@@ -1,25 +1,13 @@
-import express, { Response } from "express";
-import dotenv from "dotenv";
+import express from "express";
 import {
   createConversation,
   deleteConversation,
   getConversations,
 } from "../models/conversationModel";
 
-dotenv.config();
-
 const conversationRouter = express.Router();
 
-conversationRouter.post("/", async (req: any, res: Response) => {
-  const userConversations = await getConversations(req);
-  res.json(userConversations);
-});
-conversationRouter.post("/create", async (req: any, res: Response) => {
-  const createdConversation = await createConversation(req);
-  res.json(createdConversation);
-});
-conversationRouter.delete("/delete", async (req: any, res: Response) => {
-  const deletedConversation = await deleteConversation(req);
-  res.json(deletedConversation);
-});
+conversationRouter.post("/", getConversations);
+conversationRouter.post("/create", createConversation);
+conversationRouter.delete("/delete", deleteConversation);
 export default conversationRouter;

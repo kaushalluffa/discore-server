@@ -26,14 +26,10 @@ app.use(bodyParser.json());
 
 // io middleware auth
 io.use(ioMiddleware).on("connection", (socket) => {
-  console.log("a user connected", socket?.id);
   handleEvents(socket);
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
-});
-app.get("/", (_req: any, res: any) => {
-  res.json("Hitting the api");
 });
 app.use("/auth", authController);
 //protected routes
