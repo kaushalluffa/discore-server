@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { prisma } from "../prisma";
-import { io } from "../socket/socket";
-import { deleteImageKitFile } from "../utils/deleteImageKitFile";
+import { prisma } from "../prisma.js";
+import { io } from "../socket/socket.js";
+import { deleteImageKitFile } from "../utils/deleteImageKitFile.js";
 
 export const getMessages = async (req: Request, res: Response) => {
   try {

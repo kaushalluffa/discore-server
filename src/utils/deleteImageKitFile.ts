@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { imagekit } from "../constants";
+import { imagekit } from "../constants.js";
 
 export async function deleteImageKitFile(fileId: string) {
   try {

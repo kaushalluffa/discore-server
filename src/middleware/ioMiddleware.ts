@@ -1,4 +1,4 @@
-import { JWT_SECRET_KEY } from "../constants";
+import { JWT_SECRET_KEY } from "../constants.js";
 import { Socket } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 import { ExtendedError } from "socket.io/dist/namespace";

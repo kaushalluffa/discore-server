@@ -3,7 +3,7 @@ import {
   createConversation,
   deleteConversation,
   getConversations,
-} from "../models/conversationModel";
+} from "../models/conversationModel.js";
 
 const conversationRouter = express.Router();
 

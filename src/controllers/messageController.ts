@@ -3,7 +3,7 @@ import {
   createMessage,
   deleteMessage,
   getMessages,
-} from "../models/messageModel";
+} from "../models/messageModel.js";
 
 const messageRouter = express.Router();
 

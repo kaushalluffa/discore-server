@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { JWT_SECRET_KEY } from "../constants";
+import { JWT_SECRET_KEY } from "../constants.js";
 import jwt from "jsonwebtoken";
 export default async function authMiddleware(
   req: any,
