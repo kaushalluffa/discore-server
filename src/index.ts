@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { PORT, COMPLETE_URL, BASE_CLIENT_URL } from "./constants.js";
+import { PORT, COMPLETE_URL, CLIENT_URL } from "./constants.js";
 import bodyParser from "body-parser";
 import conversationRouter from "./controllers/conversationControllers.js";
 import messageRouter from "./controllers/messageController.js";
@@ -15,12 +15,7 @@ import imageKitAuthController from "./controllers/imageKitAuthController.js";
 
 dotenv.config();
 
-app.use(
-  cors({
-    origin: BASE_CLIENT_URL,
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
 
