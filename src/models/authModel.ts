@@ -2,11 +2,7 @@ import { prisma } from "../prisma.js";
 import bcrypt from "bcrypt";
 import generateToken from "../utils/generateToken.js";
 import jwt from "jsonwebtoken";
-import {
-  BASE_CLIENT_URL,
-  CLIENT_AUTH_URL,
-  JWT_SECRET_KEY,
-} from "../constants.js";
+import { CLIENT_AUTH_URL, JWT_SECRET_KEY } from "../constants.js";
 import { Request, Response } from "express";
 export const signup = async (req: Request, res: Response) => {
   const { email, password, name, imageUrl = null } = req?.body;
@@ -34,7 +30,6 @@ export const signup = async (req: Request, res: Response) => {
         sameSite: "none",
         secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 7,
-        domain: BASE_CLIENT_URL,
         httpOnly: true,
       });
       return res.json({
@@ -79,7 +74,6 @@ export const login = async (req: Request, res: Response) => {
         sameSite: "none",
         secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 7,
-        domain: BASE_CLIENT_URL,
         httpOnly: true,
       });
       return res.json({
