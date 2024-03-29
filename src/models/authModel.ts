@@ -26,7 +26,7 @@ export const signup = async (req: Request, res: Response) => {
         data: { email, name, imageUrl, password: hashedPassword },
       });
 
-      res.cookie("token", await generateToken(newUser));
+      res.cookie("token", await generateToken(newUser), { sameSite: true });
       return res.json({
         message: "Signed up successfully",
         user: {
@@ -65,7 +65,9 @@ export const login = async (req: Request, res: Response) => {
         return res.json({ message: "Invalid password" });
       }
 
-      res.cookie("token", await generateToken(existingUser));
+      res.cookie("token", await generateToken(existingUser), {
+        sameSite: true,
+      });
       return res.json({
         message: "Logged in successfully",
         user: {
