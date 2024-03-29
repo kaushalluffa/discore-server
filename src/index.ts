@@ -15,7 +15,7 @@ import imageKitAuthController from "./controllers/imageKitAuthController.js";
 
 dotenv.config();
 
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(cookieParser());
 app.use(bodyParser.json());
 
