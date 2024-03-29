@@ -1,17 +1,17 @@
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { PORT, COMPLETE_URL, CLIENT_URL } from "./constants";
+import { PORT, COMPLETE_URL, CLIENT_URL } from "./constants.js";
 import bodyParser from "body-parser";
-import conversationRouter from "./controllers/conversationControllers";
-import messageRouter from "./controllers/messageController";
-import ioMiddleware from "./middleware/ioMiddleware";
-import { app, io, server } from "./socket/socket";
-import { handleEvents } from "./socket/events";
-import usersController from "./controllers/usersControllers";
-import authController from "./controllers/authController";
-import authMiddleware from "./middleware/authMiddleware";
-import imageKitAuthController from "./controllers/imageKitAuthController";
+import conversationRouter from "./controllers/conversationControllers.js";
+import messageRouter from "./controllers/messageController.js";
+import ioMiddleware from "./middleware/ioMiddleware.js";
+import { app, io, server } from "./socket/socket.js";
+import { handleEvents } from "./socket/events.js";
+import usersController from "./controllers/usersControllers.js";
+import authController from "./controllers/authController.js";
+import authMiddleware from "./middleware/authMiddleware.js";
+import imageKitAuthController from "./controllers/imageKitAuthController.js";
 
 dotenv.config();
 

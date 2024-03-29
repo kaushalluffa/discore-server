@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { prisma } from "../prisma";
-import { io } from "../socket/socket";
+import { prisma } from "../prisma.js";
+import { io } from "../socket/socket.js";
 export const createConversation = async (req: Request, res: Response) => {
   const type = req?.body?.type;
   const members = req?.body?.members;

@@ -1,6 +1,6 @@
 import { Socket } from "socket.io";
-import { joinRoom, leaveRoom } from "./room";
-import { io } from "./socket";
+import { joinRoom, leaveRoom } from "./room.js";
+import { io } from "./socket.js";
 
 export const handleEvents = (socket: Socket) => {
   socket.on("joinConversation", (conversationId: string) => {

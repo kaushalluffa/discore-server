@@ -1,4 +1,4 @@
-import { VALIDATION_MSGS, VALIDATION_TYPES } from "../constants";
+import { VALIDATION_MSGS, VALIDATION_TYPES } from "../constants.js";
 export default function validate(payload: any, type: string) {
   switch (type) {
     case VALIDATION_TYPES.SIGNUP_REQ:
