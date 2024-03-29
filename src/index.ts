@@ -16,8 +16,7 @@ import imageKitAuthController from "./controllers/imageKitAuthController.js";
 dotenv.config();
 const corsOptions = {
   credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization"],
-  origin: ["http://localhost:3000", CLIENT_URL],
+  origin: [CLIENT_URL],
 };
 app.use(cors(corsOptions));
 app.options("*", cors());
