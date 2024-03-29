@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { PORT, COMPLETE_URL, CLIENT_URL } from "./constants.js";
+import { PORT, COMPLETE_URL } from "./constants.js";
 import bodyParser from "body-parser";
 import conversationRouter from "./controllers/conversationControllers.js";
 import messageRouter from "./controllers/messageController.js";
@@ -17,7 +17,7 @@ dotenv.config();
 const corsOptions = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Credentials": "true",
-  origin: [CLIENT_URL as string],
+  origin: true,
   credentials: true,
 };
 app.use(cors(corsOptions));
