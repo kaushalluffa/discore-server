@@ -27,7 +27,7 @@ export const signup = async (req: Request, res: Response) => {
       });
 
       res.cookie("token", await generateToken(newUser), {
-        sameSite: "none",
+        sameSite: "lax",
         secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 7,
       });
@@ -70,7 +70,7 @@ export const login = async (req: Request, res: Response) => {
       }
 
       res.cookie("token", await generateToken(existingUser), {
-        sameSite: "none",
+        sameSite: "lax",
         secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 7,
       });
