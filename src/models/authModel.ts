@@ -31,6 +31,7 @@ export const signup = async (req: Request, res: Response) => {
         secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 7,
         httpOnly: true,
+        domain:'.netlify.app'
       });
       return res.json({
         message: "Signed up successfully",
@@ -75,6 +76,7 @@ export const login = async (req: Request, res: Response) => {
         secure: true,
         maxAge: 1000 * 60 * 60 * 24 * 7,
         httpOnly: true,
+        domain: ".netlify.app",
       });
       return res.json({
         message: "Logged in successfully",

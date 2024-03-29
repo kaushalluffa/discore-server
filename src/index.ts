@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { PORT, COMPLETE_URL } from "./constants.js";
+import { PORT, COMPLETE_URL, CLIENT_URL } from "./constants.js";
 import bodyParser from "body-parser";
 import conversationRouter from "./controllers/conversationControllers.js";
 import messageRouter from "./controllers/messageController.js";
@@ -15,10 +15,9 @@ import imageKitAuthController from "./controllers/imageKitAuthController.js";
 
 dotenv.config();
 const corsOptions = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Credentials": "true",
-  origin: true,
   credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"],
+  origin: ["http://localhost:3000", CLIENT_URL],
 };
 app.use(cors(corsOptions));
 app.options("*", cors());
