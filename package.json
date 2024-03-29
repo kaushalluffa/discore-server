@@ -1,11 +1,12 @@
 {
-  "name": "discord-server",
+  "name": "pern-chat-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "tsc && node dist/index.js",
+    "start": "node index.js",
+    "build": "tsc",
     "dev": "npx tsx watch src/index.ts",
     "prisma:updateSchema": "npx prisma generate && npx prisma db push"
   },
