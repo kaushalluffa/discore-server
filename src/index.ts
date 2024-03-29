@@ -17,7 +17,7 @@ dotenv.config();
 const corsOptions = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Credentials": "true",
-  origin: CLIENT_URL,
+  origin: [CLIENT_URL as string],
   credentials: true,
 };
 app.use(cors(corsOptions));
