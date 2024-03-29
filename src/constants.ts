@@ -30,3 +30,4 @@ export const imagekit = new ImageKit({
   publicKey: IMAGE_KIT_PUBLIC_KEY,
   privateKey: IMAGE_KIT_PRIVATE_KEY,
 });
+export const BASE_CLIENT_URL = process.env.BASE_CLIENT_URL;
