@@ -26,10 +26,7 @@ export const signup = async (req: Request, res: Response) => {
         data: { email, name, imageUrl, password: hashedPassword },
       });
 
-      res.cookie("token", await generateToken(newUser), {
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        httpOnly: true,
-      });
+      res.cookie("token", await generateToken(newUser));
       return res.json({
         message: "Signed up successfully",
         user: {
@@ -68,10 +65,7 @@ export const login = async (req: Request, res: Response) => {
         return res.json({ message: "Invalid password" });
       }
 
-      res.cookie("token", await generateToken(existingUser), {
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        httpOnly: true,
-      });
+      res.cookie("token", await generateToken(existingUser));
       return res.json({
         message: "Logged in successfully",
         user: {
