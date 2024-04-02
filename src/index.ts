@@ -14,12 +14,14 @@ import authMiddleware from "./middleware/authMiddleware.js";
 import imageKitAuthController from "./controllers/imageKitAuthController.js";
 
 dotenv.config();
-
+const corsOptions = {
+  "Access-Control-Allow-Origin": CLIENT_URL,
+  "Access-Control-Allow-Credentials": "true",
+  origin: CLIENT_URL,
+  credentials: true,
+};
 app.use(
-  cors({
-    origin: CLIENT_URL,
-    credentials: true,
-  })
+  cors(corsOptions)
 );
 app.use(cookieParser());
 app.use(bodyParser.json());
