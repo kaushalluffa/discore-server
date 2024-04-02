@@ -26,7 +26,10 @@ export const signup = async (req: Request, res: Response) => {
         data: { email, name, imageUrl, password: hashedPassword },
       });
 
-      res.cookie("token", await generateToken(newUser));
+      res.cookie("token", await generateToken(newUser), {
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+        
+      });
       return res.json({
         message: "Signed up successfully",
         user: {
