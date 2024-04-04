@@ -17,6 +17,7 @@ dotenv.config();
 const corsOptions = {
   origin: CLIENT_URL,
   credentials: true,
+  exposedHeaders: ["Set-Cookie"],
 };
 app.use(cors(corsOptions));
 app.use(cookieParser());

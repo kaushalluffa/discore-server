@@ -35,6 +35,7 @@ export const signup = async (req: Request, res: Response) => {
         secure: true,
         sameSite: "lax",
         domain: BASE_CLIENT_URL,
+        httpOnly: true,
       });
       return res.json({
         message: "Signed up successfully",
@@ -78,6 +79,7 @@ export const login = async (req: Request, res: Response) => {
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
         secure: true,
         sameSite: "lax",
+        httpOnly: true,
         domain: BASE_CLIENT_URL,
       });
       return res.json({
