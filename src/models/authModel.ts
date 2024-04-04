@@ -33,8 +33,7 @@ export const signup = async (req: Request, res: Response) => {
       res.cookie("token", await generateToken(newUser), {
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
         secure: true,
-        sameSite: "lax",
-        domain: BASE_CLIENT_URL,
+        sameSite: "none",
         httpOnly: true,
       });
       return res.json({
@@ -78,9 +77,8 @@ export const login = async (req: Request, res: Response) => {
       res.cookie("token", await generateToken(existingUser), {
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
         secure: true,
-        sameSite: "lax",
+        sameSite: "none",
         httpOnly: true,
-        domain: BASE_CLIENT_URL,
       });
       return res.json({
         message: "Logged in successfully",
