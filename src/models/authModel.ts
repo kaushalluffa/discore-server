@@ -6,7 +6,6 @@ import {
   BASE_CLIENT_URL,
   CLIENT_AUTH_URL,
   JWT_SECRET_KEY,
-  NODE_ENV,
 } from "../constants.js";
 import { Request, Response } from "express";
 export const signup = async (req: Request, res: Response) => {
@@ -34,7 +33,7 @@ export const signup = async (req: Request, res: Response) => {
       res.cookie("token", await generateToken(newUser), {
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
         secure: true,
-        sameSite: NODE_ENV === "dev" ? "lax" : "strict",
+        sameSite: "lax",
         domain: BASE_CLIENT_URL,
       });
       return res.json({
@@ -78,7 +77,7 @@ export const login = async (req: Request, res: Response) => {
       res.cookie("token", await generateToken(existingUser), {
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
         secure: true,
-        sameSite: NODE_ENV === "dev" ? "lax" : "strict",
+        sameSite: "lax",
         domain: BASE_CLIENT_URL,
       });
       return res.json({
