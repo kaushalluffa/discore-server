@@ -19,6 +19,14 @@ const corsOptions = {
   credentials: true,
   exposedHeaders: ["Set-Cookie"],
 };
+app.use((_req, res, next) => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    CLIENT_URL
+  );
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(bodyParser.json());
