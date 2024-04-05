@@ -35,7 +35,6 @@ export const signup = async (req: Request, res: Response) => {
         secure: true,
         sameSite: "strict",
         httpOnly: true,
-        domain: BASE_CLIENT_URL,
       });
       return res.json({
         message: "Signed up successfully",
@@ -80,7 +79,6 @@ export const login = async (req: Request, res: Response) => {
         secure: true,
         sameSite: "strict",
         httpOnly: true,
-        domain: BASE_CLIENT_URL,
       });
       return res.json({
         message: "Logged in successfully",
